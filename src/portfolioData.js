@@ -61,7 +61,8 @@ export const projects = [
     description: 'A six-agent financial analysis platform coordinating market data, quantitative analysis, risk evaluation, and report generation. Placed fifth in the Goldman Sachs AI Challenge.',
     stack: 'PYTHON, FASTAPI, REACT, POSTGRESQL',
     github: 'https://github.com/joshuaraja1/financeiq',
-    demo: 'https://financeiq-gilt.vercel.app/',
+    demo: 'https://financeiq-gilt.vercel.app/demo',
+    demoLabel: 'Explore demo',
     visual: 'finance',
   },
   {
