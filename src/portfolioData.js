@@ -69,6 +69,7 @@ export const projects = [
     description: 'A natural-language vehicle recommendation platform built for the Toyota Mobility Challenge at HackTAMU 2026, where it placed first.',
     stack: 'NEXT.JS, TYPESCRIPT, POSTGRESQL, PGVECTOR',
     github: 'https://github.com/joshuaraja1/HackTamu2026',
+    devpost: 'https://devpost.com/software/rideiq',
     visual: 'ride',
   },
   {
@@ -83,6 +84,7 @@ export const projects = [
     description: 'A land-investment analytics tool with data pipelines, property ranking, and interactive decision dashboards. Placed first in the Lennar Innovation Challenge.',
     stack: 'PYTHON, STREAMLIT, PLOTLY, SQL',
     github: 'https://github.com/joshuaraja1/LandIQ',
+    devpost: 'https://devpost.com/software/landiq',
     visual: 'land',
   },
 ]
