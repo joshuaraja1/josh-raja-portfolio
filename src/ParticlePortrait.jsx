@@ -93,10 +93,11 @@ function characterParticles(image) {
       const green = pixels[offset + 1]
       const blue = pixels[offset + 2]
       const hairAndFace = y < 275 && ((x - 201) / 119) ** 2 + ((y - 160) / 156) ** 2 < 1
-      const face = ((x - 201) / 72) ** 2 + ((y - 204) / 97) ** 2 < 1
+      const faceArea = ((x - 201) / 106) ** 2 + ((y - 204) / 118) ** 2 < 1
+      const face = faceArea && red < 205 && red - green < 65 && green > 58
       const shoulders = y > 267 && ((x - 201) / 194) ** 2 + ((y - 412) / 153) ** 2 < 1
       const darkClothing = red + green + blue < 405
-      const whiteCollar = x > 130 && x < 295 && y < 375 && red + green + blue > 450 && Math.abs(red - green) < 42 && Math.abs(green - blue) < 42
+      const whiteCollar = x > 82 && x < 305 && y > 275 && y < 375 && red + green + blue > 440 && Math.abs(red - green) < 52 && Math.abs(green - blue) < 52
       const hand = x < 148 && y > 274 && red > 95 && red > green * 1.12 && red > blue * 1.16
       const decoration = red > 195 && green > 190 && blue > 185
       const foreground = (hairAndFace && (subject[index] || face) && (!decoration || face)) || (shoulders && !hand && (darkClothing || whiteCollar))
