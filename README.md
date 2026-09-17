@@ -2,7 +2,7 @@
 
 A responsive personal portfolio built with React and Vite. Its layout and visual language follow [Gazi V2](https://github.com/gazijarin/Gazi-V2) by Gazi Jarin. The implementation and particle illustration were rebuilt for Josh, with the original author's biography, work, and images removed.
 
-**Live site:** https://josh-raja-portfolio.vercel.app/
+**Live site:** https://joshraja.vercel.app/
 
 ## Local development
 
