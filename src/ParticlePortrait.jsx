@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-// A generated portrait silhouette: no photograph of the starter site's owner is used.
-function makeParticles() {
+function makeFallbackParticles() {
   let seed = 17
   const random = () => ((seed = (seed * 16807) % 2147483647) / 2147483647)
   const points = []
@@ -19,7 +18,30 @@ function makeParticles() {
   return points
 }
 
-const particles = makeParticles()
+const fallbackParticles = makeFallbackParticles()
+
+function particlesFromPhoto(image) {
+  const sample = document.createElement('canvas')
+  sample.width = 100
+  sample.height = 100
+  const context = sample.getContext('2d', { willReadFrequently: true })
+  const square = Math.min(image.width, image.height)
+  context.drawImage(image, (image.width - square) / 2, Math.max(0, (image.height - square) / 3), square, square, 0, 0, 100, 100)
+  const { data } = context.getImageData(0, 0, 100, 100)
+  const points = []
+  for (let y = 0; y < 100; y += 1.5) {
+    for (let x = 0; x < 100; x += 1.5) {
+      const offset = (Math.floor(y) * 100 + Math.floor(x)) * 4
+      const [red, green, blue] = data.slice(offset, offset + 3)
+      const pinkBackdrop = red > 150 && red - green > 45 && red - blue > 45
+      const sparkle = red + green + blue > 690
+      if (pinkBackdrop || sparkle) continue
+      const brightness = (red + green + blue) / 765
+      points.push({ x: x * 4, y: y * 4, size: 1.1, phase: x * y * 0.07, alpha: 0.23 + (1 - brightness) * 0.52 })
+    }
+  }
+  return points
+}
 
 export default function ParticlePortrait() {
   const canvasRef = useRef(null)
@@ -27,6 +49,10 @@ export default function ParticlePortrait() {
   useEffect(() => {
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
+    let particleSet = fallbackParticles
+    const image = new Image()
+    image.onload = () => { particleSet = particlesFromPhoto(image) }
+    image.src = '/profile.jpg'
     const pointer = { x: -500, y: -500 }
     const scale = window.devicePixelRatio || 1
     canvas.width = 400 * scale
@@ -42,7 +68,7 @@ export default function ParticlePortrait() {
       if (!visible) return
       context.clearRect(0, 0, 400, 400)
       const t = time / 1000
-      for (const point of particles) {
+      for (const point of particleSet) {
         const dx = point.x - pointer.x
         const dy = point.y - pointer.y
         const distance = Math.hypot(dx, dy)
@@ -62,8 +88,8 @@ export default function ParticlePortrait() {
     canvas.addEventListener('pointermove', move)
     canvas.addEventListener('pointerleave', leave)
     frame = requestAnimationFrame(draw)
-    return () => { cancelAnimationFrame(frame); observer.disconnect(); canvas.removeEventListener('pointermove', move); canvas.removeEventListener('pointerleave', leave) }
+    return () => { cancelAnimationFrame(frame); observer.disconnect(); image.onload = null; canvas.removeEventListener('pointermove', move); canvas.removeEventListener('pointerleave', leave) }
   }, [])
 
-  return <canvas ref={canvasRef} className="particle-portrait" role="img" aria-label="Animated mint particle silhouette" />
+  return <canvas ref={canvasRef} className="particle-portrait" role="img" aria-label="Animated particle portrait of Josh Raja" />
 }

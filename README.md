@@ -13,6 +13,6 @@ Run `npm run lint` and `npm run build` before publishing. Vercel can import the 
 
 ## Personalization before launch
 
-Edit the `profile`, `focusTabs`, and `project` values near the top of `src/App.jsx`. Add a verified email address, GitHub and LinkedIn links, and real experience and project descriptions. Until then, the site intentionally shows only this portfolio as work and does not publish an unverified contact address.
+Profile, experience, and project content lives in `src/portfolioData.js`. It is based on Josh's supplied resume and public project repositories. The portrait in `public/profile.jpg` was supplied by Josh. Update that data file as experience or projects change.
 
 The design uses no proprietary images or content from the original portfolio.

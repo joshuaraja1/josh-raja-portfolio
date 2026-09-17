@@ -1,25 +1,7 @@
 import { useEffect, useState } from 'react'
 import ParticlePortrait from './ParticlePortrait.jsx'
+import { profile, experience, projects } from './portfolioData.js'
 import './App.css'
-
-// Add verified details here before publishing a personal profile.
-const profile = {
-  name: 'Josh Raja',
-  firstName: 'josh',
-  email: '',
-  github: '',
-  linkedin: '',
-  intro: 'Software engineer who enjoys turning ideas into useful, thoughtful digital experiences. I work across interfaces and the code behind them, always looking for a clearer way to build.',
-  about: 'I’m a software engineer interested in practical problems, clean interfaces, and learning how good products come together. This site is a place to share the work and ideas I can stand behind.',
-  technologies: ['JavaScript', 'React.js', 'Python', 'TypeScript', 'HTML & CSS'],
-}
-
-const focusTabs = [
-  { label: 'Engineering', title: 'Building for the web', period: 'CURRENT FOCUS', points: ['Create responsive applications with a careful eye for the details that make them easier to use.', 'Connect interfaces to data and services with maintainable, readable code.'] },
-  { label: 'Learning', title: 'Growing through projects', period: 'ONGOING', points: ['Explore new tools and ideas through small, working experiments.', 'Iterate on accessibility, performance, and the quality of the finished experience.'] },
-]
-
-const project = { title: 'Personal Portfolio', description: 'A place to share selected projects and the thinking behind them. Built with React and Vite, inspired by the structure of Gazi V2.', stack: 'REACT.JS, VITE, CSS' }
 
 function Icon({ name, size = 20 }) {
   const common = { width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true }
@@ -34,6 +16,7 @@ function SectionHeading({ children }) { return <div className="section-heading">
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeTab, setActiveTab] = useState(0)
+  const [activeProject, setActiveProject] = useState(0)
   const [gameMode, setGameMode] = useState(false)
   const [gameX, setGameX] = useState(46)
   const [showHelp, setShowHelp] = useState(false)
@@ -48,7 +31,7 @@ function App() {
     return () => window.removeEventListener('keydown', move)
   }, [gameMode])
 
-  const navigation = [['Home', 'intro'], ['About', 'about'], ['Experience', 'experience'], ['Software', 'projects'], ['Hardware', 'hardware-projects'], ['Art', 'art']]
+  const navigation = [['Home', 'intro'], ['About', 'about'], ['Experience', 'experience'], ['Software', 'projects'], ['Hardware', 'hardware-projects'], ['Experiments', 'experiments']]
   const closeMenu = () => setMenuOpen(false)
 
   return <div className="app" id="top">
@@ -71,17 +54,27 @@ function App() {
     <main>
       <section id="intro" className="intro-section">
         <div className="portrait-wrap"><ParticlePortrait /></div>
-        <div className="intro-block"><h1>hi, <span>{profile.firstName}</span> here.<b className="cursor">|</b></h1><p>{profile.intro}</p>{profile.email ? <a className="say-hi" href={`mailto:${profile.email}`}><Icon name="mail" /> Say hi!</a> : <a className="say-hi" href="#about"><Icon name="mail" /> Get to know me</a>}</div>
+        <div className="intro-block"><h1>hi, <span>{profile.firstName}</span> here.<b className="cursor">|</b></h1><p>{profile.intro}</p><a className="say-hi" href={`mailto:${profile.email}`}><Icon name="mail" /> Say hi!</a></div>
       </section>
 
-      <section id="about" className="content-section about-section"><SectionHeading>/ about me</SectionHeading><div className="about-grid"><div><p>{profile.about}</p><p>Here are some technologies I have been working with:</p><ul className="tech-list">{profile.technologies.map(tech => <li key={tech}>{tech}</li>)}</ul><p>More of my work and background will be added here as the portfolio grows.</p></div><div className="about-portrait" aria-hidden="true"><span>JR</span></div></div></section>
+      <section id="about" className="content-section about-section"><SectionHeading>/ about me</SectionHeading><div className="about-grid"><div><p>{profile.about}</p><p>Here are some technologies I have been working with:</p><ul className="tech-list">{profile.technologies.map(tech => <li key={tech}>{tech}</li>)}</ul><p>{profile.personal}</p></div><div className="about-portrait"><img src="/profile.jpg" alt="Josh Raja" /></div></div></section>
 
-      <section id="experience" className="content-section experience-section"><SectionHeading>/ experience</SectionHeading><div className="experience-layout"><div className="experience-tabs" role="tablist" aria-label="Current focus">{focusTabs.map((tab, index) => <button type="button" role="tab" key={tab.label} aria-selected={activeTab === index} aria-controls="experience-panel" onClick={() => setActiveTab(index)}>{tab.label}</button>)}</div><div id="experience-panel" className="experience-panel" role="tabpanel"><h3>{focusTabs[activeTab].title}</h3><span>{focusTabs[activeTab].period}</span><ul>{focusTabs[activeTab].points.map(point => <li key={point}>{point}</li>)}</ul></div></div></section>
+      <section id="experience" className="content-section experience-section"><SectionHeading>/ experience</SectionHeading><div className="experience-layout"><div className="experience-tabs" role="tablist" aria-label="Professional experience">{experience.map((job, index) => <button type="button" role="tab" key={job.label} aria-selected={activeTab === index} aria-controls="experience-panel" onClick={() => setActiveTab(index)}>{job.label}</button>)}</div><div id="experience-panel" className="experience-panel" role="tabpanel"><h3>{experience[activeTab].role} <span>@ {experience[activeTab].company}</span></h3><span>{experience[activeTab].period}</span><ul>{experience[activeTab].points.map(point => <li key={point}>{point}</li>)}</ul></div></div></section>
 
-      <section id="projects" className="content-section software-section"><SectionHeading>/ software</SectionHeading><div className="spotlight"><div className="spotlight-art"><div className="spotlight-window"><span>joshraja / portfolio</span><strong>hi, <i>josh</i> here.</strong><small>REACT · VITE · CSS</small></div></div><div className="spotlight-caption"><h3>{project.title.toLowerCase()}</h3><p>{project.description}</p><span>{project.stack}</span></div></div><div className="project-grid"><article className="project-card"><span className="folder-symbol">▱</span><h3>This website</h3><p>A personal portfolio with responsive sections, accessible navigation, and an interactive particle illustration.</p><span>REACT.JS · VITE · CSS</span></article><article className="project-card muted-card"><span className="folder-symbol">▱</span><h3>More to come</h3><p>Selected work will appear here once project details and links are ready to share.</p><span>WORK IN PROGRESS</span></article></div></section>
+      <section id="projects" className="content-section software-section">
+        <div className="section-with-link"><SectionHeading>/ software</SectionHeading><a href={profile.github} target="_blank" rel="noreferrer">View all projects →</a></div>
+        <div className={`spotlight spotlight-${projects[activeProject].visual}`}>
+          <div className="spotlight-art" aria-hidden="true"><div className="spotlight-window"><span>{projects[activeProject].title} / selected project</span><strong>{projects[activeProject].title}</strong><small>{projects[activeProject].stack}</small></div></div>
+          <div className="spotlight-caption"><h3>{projects[activeProject].title.toLowerCase()}</h3><p>{projects[activeProject].description}</p><span>{projects[activeProject].stack}</span><div className="spotlight-links"><a href={projects[activeProject].github} target="_blank" rel="noreferrer" aria-label={`${projects[activeProject].title} source code`}><Icon name="github" /></a>{projects[activeProject].demo && <a href={projects[activeProject].demo} target="_blank" rel="noreferrer">Live demo ↗</a>}</div></div>
+          <button className="carousel-arrow previous" type="button" aria-label="Previous project" onClick={() => setActiveProject((activeProject - 1 + projects.length) % projects.length)}>‹</button>
+          <button className="carousel-arrow next" type="button" aria-label="Next project" onClick={() => setActiveProject((activeProject + 1) % projects.length)}>›</button>
+          <div className="carousel-dots" aria-label="Choose a featured project">{projects.map((item, index) => <button type="button" key={item.title} aria-label={`Show ${item.title}`} aria-current={activeProject === index ? 'true' : undefined} onClick={() => setActiveProject(index)} />)}</div>
+        </div>
+        <div className="project-grid">{projects.slice(1).map(item => <article className="project-card" key={item.title}><div className="project-card-top"><span className="folder-symbol">▱</span><a href={item.github} target="_blank" rel="noreferrer" aria-label={`${item.title} source code`}><Icon name="github" /></a></div><h3>{item.title}</h3><p>{item.description}</p><span>{item.stack}</span></article>)}</div>
+      </section>
 
-      <section id="hardware-projects" className="content-section hardware-section"><SectionHeading>/ hardware</SectionHeading><div className="placeholder-panel"><span className="placeholder-icon">⌁</span><div><h3>Projects in progress</h3><p>Hardware projects will be shared here when there is something ready to show.</p></div></div></section>
-      <section id="art" className="content-section art-section"><SectionHeading>/ art</SectionHeading><p className="art-intro">A space for experiments and visual work.</p><div className="art-grid" aria-label="Decorative artwork placeholders"><div className="art-tile tile-one"/><div className="art-tile tile-two"/><div className="art-tile tile-three"/></div></section>
+      <section id="hardware-projects" className="content-section hardware-section"><SectionHeading>/ hardware</SectionHeading><div className="placeholder-panel"><span className="placeholder-icon">⌁</span><div><h3>Polaris</h3><p>An autonomous fixed-wing aircraft platform with waypoint navigation, path planning, telemetry, sensor fusion, and simulation-based validation.</p><span>PYTHON · C++ · ROS 2 · MAVLINK</span></div></div></section>
+      <section id="experiments" className="content-section art-section"><SectionHeading>/ experiments</SectionHeading><p className="art-intro">Ideas that started with a question and turned into working systems.</p><div className="experiment-grid"><article><span>01 / EVIDENCE SYSTEMS</span><h3>EchoTrace</h3><p>An evidence reconstruction engine for commercial fleet incidents, bringing fragmented media into a cited timeline.</p><a href="https://github.com/joshuaraja1/EchoTrace" target="_blank" rel="noreferrer">View project ↗</a></article><article><span>02 / SEMANTIC SEARCH</span><h3>CourseGPT</h3><p>A retrieval platform that makes more than 10K academic documents searchable through ingestion, embeddings, and grounded responses.</p></article></div></section>
     </main>
     <footer>Built and designed for {profile.name}.<br />Inspired by <a href="https://github.com/gazijarin/Gazi-V2" target="_blank" rel="noreferrer">Gazi V2</a>.</footer>
   </div>
