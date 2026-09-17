@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import ParticlePortrait from './ParticlePortrait.jsx'
+import RobotGame from './RobotGame.jsx'
 import { profile, experience, projects } from './portfolioData.js'
 import './App.css'
 
@@ -17,19 +18,6 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeTab, setActiveTab] = useState(0)
   const [activeProject, setActiveProject] = useState(0)
-  const [gameMode, setGameMode] = useState(false)
-  const [gameX, setGameX] = useState(46)
-  const [showHelp, setShowHelp] = useState(false)
-
-  useEffect(() => {
-    if (!gameMode) return undefined
-    function move(event) {
-      if (event.key === 'ArrowLeft') setGameX(x => Math.max(5, x - 3))
-      if (event.key === 'ArrowRight') setGameX(x => Math.min(94, x + 3))
-    }
-    window.addEventListener('keydown', move)
-    return () => window.removeEventListener('keydown', move)
-  }, [gameMode])
 
   const navigation = [['Home', 'intro'], ['About', 'about'], ['Experience', 'experience'], ['Software', 'projects'], ['Hardware', 'hardware-projects'], ['Experiments', 'experiments']]
   const closeMenu = () => setMenuOpen(false)
@@ -47,8 +35,7 @@ function App() {
       </div>
     </div></header>
 
-    <div className="game-controls"><button type="button" className={gameMode ? 'game-button active' : 'game-button'} aria-pressed={gameMode} onClick={() => setGameMode(!gameMode)}><span className="game-dot" /> GAME MODE</button>{gameMode && <button type="button" className="game-help-button" aria-label="Game instructions" onClick={() => setShowHelp(!showHelp)}>i</button>}{showHelp && gameMode && <div className="game-help">Use ← and → to move. Explore the page while you play.</div>}</div>
-    {gameMode && <div className="game-player" style={{ left: `${gameX}%` }} aria-hidden="true">◆</div>}
+    <RobotGame />
     <aside className="side-links" aria-label="Section shortcuts">{navigation.map(([, id]) => <a href={`#${id}`} key={id}><span>/</span>{id === 'intro' ? 'home' : id === 'projects' ? 'software' : id === 'hardware-projects' ? 'hardware' : id}</a>)}</aside>
 
     <main>
