@@ -46,7 +46,13 @@ function makeLevel(width, height) {
     if (!ledge) platforms.push({ x, y, width: 78 })
     cells.push({ x: (ledge?.x ?? x) + 39, y: y - 17, collected: false })
   })
-  return { platforms, cells }
+  const textPlatforms = [...document.querySelectorAll('.section-heading h2, .intro-block h1, .intro-block p, .say-hi, .about-grid p, .experience-panel h3, .project-card h3')]
+    .map(element => {
+      const rect = element.getBoundingClientRect()
+      return { x: rect.left, y: rect.top + window.scrollY, width: rect.width }
+    })
+    .filter(platform => platform.width > 35)
+  return { platforms, textPlatforms, cells }
 }
 
 function drawSprite(ctx, x, y, facing, tick) {
@@ -101,6 +107,8 @@ export default function RobotGame() {
     let animation
     let ended = false
     let scrollTarget = window.scrollY
+    const previousScrollBehavior = document.documentElement.style.scrollBehavior
+    document.documentElement.style.scrollBehavior = 'auto'
 
     const resize = () => {
       const ratio = Math.min(window.devicePixelRatio || 1, 2)
@@ -151,7 +159,7 @@ export default function RobotGame() {
         player.y += player.vy
         player.grounded = false
         if (player.vy >= 0) {
-          for (const platform of level.platforms) {
+          for (const platform of [...level.platforms, ...level.textPlatforms]) {
             if (previousBottom <= platform.y + 5 && player.y + 42 >= platform.y && player.x + 31 > platform.x && player.x + 5 < platform.x + platform.width) {
               player.y = platform.y - 42
               player.vy = 0
@@ -203,12 +211,13 @@ export default function RobotGame() {
       window.removeEventListener('keydown', keyDown, true)
       window.removeEventListener('keyup', keyUp)
       window.removeEventListener('blur', blur)
+      document.documentElement.style.scrollBehavior = previousScrollBehavior
     }
   }, [active, round])
 
   const toggle = event => {
     event.currentTarget.blur()
-    if (!active) window.scrollTo(0, 0)
+    if (!active) window.scrollTo({ top: 0, behavior: 'instant' })
     setActive(value => !value)
     setHelp(false)
     setCollected(0)
