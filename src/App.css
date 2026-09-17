@@ -4,6 +4,7 @@
 @media(max-width:520px){.game-controls{top:68px;left:16px}.intro-section{min-height:680px;padding-top:110px}.portrait-wrap{width:min(220px,60vw)}.intro-block h1{font-size:42px}.intro-block p{font-size:15px;line-height:1.4}.say-hi{min-height:43px;font-size:15px;padding:7px 20px}.content-section{padding:55px 20px}.section-heading h2{font-size:31px}.about-grid p{font-size:19px}.tech-list{grid-template-columns:repeat(2,minmax(0,1fr))}.tech-list li{font-size:17px}.project-grid{grid-template-columns:1fr}.spotlight{height:320px}.spotlight-window{width:82%;height:185px;padding:15px}.spotlight-window strong{font-size:32px}.spotlight-caption h3{font-size:30px}.spotlight-caption p{font-size:16px}.art-grid{gap:7px}.art-tile{height:120px}}
 
 .about-portrait img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.particle-portrait{touch-action:none}
 .experience-panel h3 span{color:#64ffda}
 .experience-tabs button{white-space:nowrap}
 .section-with-link{display:flex;align-items:center;justify-content:space-between;gap:18px}
