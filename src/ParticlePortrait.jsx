@@ -92,18 +92,19 @@ function characterParticles(image) {
       const red = pixels[offset]
       const green = pixels[offset + 1]
       const blue = pixels[offset + 2]
-      const hairAndFace = y < 275 && ((x - 201) / 119) ** 2 + ((y - 160) / 156) ** 2 < 1
+      const hairAndFace = y < 275 && ((x - 201) / 108) ** 2 + ((y - 160) / 156) ** 2 < 1
       const faceArea = ((x - 201) / 106) ** 2 + ((y - 204) / 118) ** 2 < 1
       const face = faceArea && red < 205 && red - green < 65 && green > 58
+      const mouth = ((x - 201) / 73) ** 2 + ((y - 251) / 41) ** 2 < 1
       const shoulders = y > 267 && ((x - 201) / 194) ** 2 + ((y - 412) / 153) ** 2 < 1
       const darkClothing = red + green + blue < 405
       const whiteCollar = x > 82 && x < 305 && y > 275 && y < 375 && red + green + blue > 440 && Math.abs(red - green) < 52 && Math.abs(green - blue) < 52
       const hand = x < 148 && y > 274 && red > 95 && red > green * 1.12 && red > blue * 1.16
       const decoration = red > 195 && green > 190 && blue > 185
-      const foreground = (hairAndFace && (subject[index] || face) && (!decoration || face)) || (shoulders && !hand && (darkClothing || whiteCollar))
+      const foreground = (hairAndFace && subject[index] && !decoration) || face || mouth || (shoulders && !hand && (darkClothing || whiteCollar))
       if (!foreground) continue
 
-      const brightness = Math.min(1, (red * 0.25 + green * 0.65 + blue * 0.1) / 215)
+      const brightness = Math.min(1, (red * 0.25 + green * 0.65 + blue * 0.1) / (mouth ? 255 : 215))
       const character = CHARACTERS[Math.min(CHARACTERS.length - 1, Math.floor(brightness * CHARACTERS.length))]
       const fade = Math.min(1, y / 25, (SIZE - y) / 35)
       particles.push({
@@ -120,7 +121,56 @@ function characterParticles(image) {
       })
     }
   }
-  return particles
+  const columns = Math.ceil((SIZE - 20) / stepX)
+  const grid = new Map()
+  particles.forEach((particle, index) => {
+    const column = Math.round((particle.targetX - 10) / stepX)
+    const row = Math.round((particle.targetY - 16) / stepY)
+    grid.set(row * columns + column, index)
+  })
+  const seen = new Set()
+  let portrait = []
+  for (const cell of grid.keys()) {
+    if (seen.has(cell)) continue
+    const pending = [cell]
+    const group = []
+    seen.add(cell)
+    for (let cursor = 0; cursor < pending.length; cursor += 1) {
+      const current = pending[cursor]
+      group.push(grid.get(current))
+      const row = Math.floor(current / columns)
+      const column = current % columns
+      for (let dy = -1; dy <= 1; dy += 1) {
+        for (let dx = -1; dx <= 1; dx += 1) {
+          if (!dx && !dy) continue
+          const neighborColumn = column + dx
+          if (neighborColumn < 0 || neighborColumn >= columns) continue
+          const neighbor = (row + dy) * columns + neighborColumn
+          if (grid.has(neighbor) && !seen.has(neighbor)) {
+            seen.add(neighbor)
+            pending.push(neighbor)
+          }
+        }
+      }
+    }
+    if (group.length > portrait.length) portrait = group
+  }
+  const occupied = new Set(portrait.map(index => {
+    const particle = particles[index]
+    return Math.round((particle.targetY - 16) / stepY) * columns + Math.round((particle.targetX - 10) / stepX)
+  }))
+  return portrait.map(index => particles[index]).filter(particle => {
+    const row = Math.round((particle.targetY - 16) / stepY)
+    const column = Math.round((particle.targetX - 10) / stepX)
+    let neighbors = 0
+    for (let dy = -2; dy <= 2; dy += 1) {
+      for (let dx = -2; dx <= 2; dx += 1) {
+        const neighborColumn = column + dx
+        if (neighborColumn >= 0 && neighborColumn < columns && occupied.has((row + dy) * columns + neighborColumn)) neighbors += 1
+      }
+    }
+    return neighbors >= 13
+  })
 }
 
 export default function ParticlePortrait() {
