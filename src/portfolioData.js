@@ -17,9 +17,11 @@ export const experience = [
     company: 'Weboni',
     period: 'JAN 2026 - PRESENT',
     points: [
-      'Built batch and streaming pipelines processing more than 500K daily events for forecasting, segmentation, anomaly detection, and model inference.',
-      'Reduced data-quality defects by 82% with validation, reconciliation, automated tests, and remediation workflows.',
-      'Integrated Odoo ERP and internal applications with Python services, REST APIs, PostgreSQL, and SQL Server.',
+      'Designed and deployed a multi-client credit-risk decisioning pipeline processing 250,000+ scoring events daily across application, prescreening, portfolio-monitoring, and cross-sell eligibility workflows.',
+      'Built FastAPI inference services on AWS with schema validation, audit logging, PII controls, and automated deployment for real-time and batch scoring under a 99.95% service objective.',
+      'Developed data-quality and model-monitoring checks for schema drift, anomalous inputs, and prediction distributions, reducing recurring production data-quality defects by 82%.',
+      'Implemented and evaluated an XGBoost fraud-detection model with 97% recall at a 2% false-positive rate on the approved evaluation dataset.',
+      'Partnered with product, risk, compliance, and engineering stakeholders on explainable outputs, reason codes, monitoring thresholds, and release criteria.',
     ],
   },
   {
@@ -28,9 +30,10 @@ export const experience = [
     company: 'Weboni',
     period: 'JAN 2025 - DEC 2025',
     points: [
-      'Developed full-stack enterprise applications with React, Angular, Node.js, Python, Java, and C#.',
-      'Increased deployment throughput by 40% through Docker and automated AWS build, test, and release workflows.',
-      'Connected ERP, CRM, reporting, and operations systems through authenticated REST APIs and reusable services.',
+      'Developed services for a microservices-based loan-origination platform processing 200,000+ daily API and workflow events, reducing average processing time from 24 hours to 4 hours.',
+      'Implemented serverless services with AWS Lambda and API Gateway, reducing infrastructure cost by 40% while supporting variable client traffic.',
+      'Built Grafana and Prometheus dashboards covering 50+ service, data, and reliability metrics, reducing incident-detection time by 70%.',
+      'Improved release pipelines through automated tests, quality gates, and deployment checks, increasing deployment throughput by 40% while enabling repeatable, lower-risk rollbacks.',
     ],
   },
   {
@@ -39,8 +42,20 @@ export const experience = [
     company: 'Renuity',
     period: 'SEP 2024 - DEC 2024',
     points: [
-      'Built ETL infrastructure processing more than 50K daily customer records using Python, SQL, and validation controls.',
-      'Developed a churn-ranking workflow with 83% precision and automated recurring reporting.',
+      'Built a customer-churn pipeline with Python, SQL, pandas, and scikit-learn, achieving 83% precision and supplying prioritized customer segments to retention stakeholders.',
+      'Automated Airflow and AWS Lambda ETL workflows processing 50,000+ customer records daily, reducing pipeline runtime from two hours to 15 minutes.',
+      'Developed Streamlit, Plotly, and Tableau dashboards for churn, customer segmentation, and anomaly analysis, cutting recurring manual reporting time by 50%.',
+    ],
+  },
+  {
+    label: 'Weboni · Intern',
+    role: 'Software Engineer Intern',
+    company: 'Weboni',
+    period: 'MAY 2024 - AUG 2024',
+    points: [
+      'Developed REST APIs for a loan-application workflow handling 50,000+ daily requests and improved response time by 40% through query optimization and Redis caching.',
+      'Added Jest and Cypress unit and integration tests, increasing coverage to 85% and reducing post-deployment defects by 40%.',
+      'Implemented OAuth 2.0/JWT authentication and Prometheus/Grafana monitoring for secure access and faster incident diagnosis.',
     ],
   },
   {
@@ -49,8 +64,9 @@ export const experience = [
     company: 'Nebula Labs',
     period: 'AUG 2023 - MAY 2024',
     points: [
-      'Built full-stack applications, APIs, and data-ingestion services for an academic platform serving more than 2,000 active users.',
-      'Developed React interfaces and services with TypeScript, Go, Python, PostgreSQL, and MongoDB.',
+      'Built full-stack features for a university records platform serving 2,000+ active users using React, Go, Python, and PostgreSQL.',
+      'Reduced average query latency from 500 ms to 80 ms through indexing, query-plan analysis, and schema changes.',
+      'Created a Jenkins and Docker CI/CD pipeline that increased deployment frequency from twice monthly to five times weekly.',
     ],
   },
 ]
