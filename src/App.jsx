@@ -20,7 +20,7 @@ function App() {
   const [activeTab, setActiveTab] = useState(0)
   const [activeProject, setActiveProject] = useState(0)
 
-  const navigation = [['Home', 'intro'], ['About', 'about'], ['Experience', 'experience'], ['Software', 'projects'], ['Hardware', 'hardware-projects'], ['Experiments', 'experiments']]
+  const navigation = [['Home', 'intro'], ['About', 'about'], ['Experience', 'experience'], ['Projects', 'projects'], ['Experiments', 'experiments']]
   const closeMenu = () => setMenuOpen(false)
 
   return <div className="app" id="top">
@@ -37,7 +37,7 @@ function App() {
     </div></header>
 
     <RobotGame />
-    <aside className="side-links" aria-label="Section shortcuts">{navigation.map(([, id]) => <a href={`#${id}`} key={id}><span>/</span>{id === 'intro' ? 'home' : id === 'projects' ? 'software' : id === 'hardware-projects' ? 'hardware' : id}</a>)}</aside>
+    <aside className="side-links" aria-label="Section shortcuts">{navigation.map(([, id]) => <a href={`#${id}`} key={id}><span>/</span>{id === 'intro' ? 'home' : id}</a>)}</aside>
 
     <main>
       <section id="intro" className="intro-section">
@@ -50,7 +50,7 @@ function App() {
       <section id="experience" className="content-section experience-section"><SectionHeading>/ experience</SectionHeading><div className="experience-layout"><div className="experience-tabs" role="tablist" aria-label="Professional experience">{experience.map((job, index) => <button type="button" role="tab" key={job.label} aria-selected={activeTab === index} aria-controls="experience-panel" onClick={() => setActiveTab(index)}>{job.label}</button>)}</div><div id="experience-panel" className="experience-panel" role="tabpanel"><h3>{experience[activeTab].role} <span>@ {experience[activeTab].company}</span></h3><span>{experience[activeTab].period}</span><ul>{experience[activeTab].points.map(point => <li key={point}>{point}</li>)}</ul></div></div></section>
 
       <section id="projects" className="content-section software-section">
-        <div className="section-with-link"><SectionHeading>/ software</SectionHeading><a href={profile.github} target="_blank" rel="noreferrer">View all projects →</a></div>
+        <div className="section-with-link"><SectionHeading>/ selected projects</SectionHeading><a href={profile.github} target="_blank" rel="noreferrer">View all projects →</a></div>
         <div className={`spotlight spotlight-${projects[activeProject].visual}`}>
           <div className="spotlight-art" aria-hidden="true"><div className="spotlight-window"><span>{projects[activeProject].title} / selected project</span><strong>{projects[activeProject].title}</strong><small>{projects[activeProject].stack}</small></div></div>
           <div className="spotlight-caption"><h3>{projects[activeProject].title.toLowerCase()}</h3><p>{projects[activeProject].description}</p><span>{projects[activeProject].stack}</span><div className="spotlight-links"><a href={projects[activeProject].github} target="_blank" rel="noreferrer" aria-label={`${projects[activeProject].title} source code`} title="GitHub"><Icon name="github" /></a>{projects[activeProject].devpost && <a href={projects[activeProject].devpost} target="_blank" rel="noreferrer" aria-label={`${projects[activeProject].title} on Devpost`} title="Devpost"><Icon name="devpost" /></a>}{projects[activeProject].demo && <a href={projects[activeProject].demo} target="_blank" rel="noreferrer">{projects[activeProject].demoLabel ?? 'Live app'} ↗</a>}</div></div>
@@ -61,8 +61,7 @@ function App() {
         <div className="project-grid">{projects.map(item => <article className="project-card" key={item.title}><div className="project-card-top"><span className="folder-symbol">▱</span><div className="project-card-links"><a href={item.github} target="_blank" rel="noreferrer" aria-label={`${item.title} source code`} title="GitHub"><Icon name="github" /></a>{item.devpost && <a href={item.devpost} target="_blank" rel="noreferrer" aria-label={`${item.title} on Devpost`} title="Devpost"><Icon name="devpost" /></a>}</div></div><h3>{item.title}</h3><p>{item.description}</p><span className="project-stack">{item.stack}</span>{item.demo && <a className="project-demo" href={item.demo} target="_blank" rel="noreferrer">{item.demoLabel ?? 'Live app'} ↗</a>}</article>)}</div>
       </section>
 
-      <section id="hardware-projects" className="content-section hardware-section"><SectionHeading>/ hardware</SectionHeading><div className="placeholder-panel"><span className="placeholder-icon">⌁</span><div><h3>Polaris</h3><p>An autonomous fixed-wing aircraft platform with waypoint navigation, path planning, telemetry, sensor fusion, and simulation-based validation.</p><span>PYTHON · C++ · ROS 2 · MAVLINK</span></div></div></section>
-      <section id="experiments" className="content-section art-section"><SectionHeading>/ experiments</SectionHeading><p className="art-intro">Ideas that started with a question and turned into working systems.</p><div className="experiment-grid"><article><span>01 / EVIDENCE SYSTEMS</span><h3>EchoTrace</h3><p>An evidence reconstruction engine for commercial fleet incidents, bringing fragmented media into a cited timeline.</p><a href="https://github.com/joshuaraja1/EchoTrace" target="_blank" rel="noreferrer">View project ↗</a></article><article><span>02 / SEMANTIC SEARCH</span><h3>CourseGPT</h3><p>A retrieval platform that makes more than 10K academic documents searchable through ingestion, embeddings, and grounded responses.</p></article></div></section>
+      <section id="experiments" className="content-section art-section"><SectionHeading>/ experiments</SectionHeading><p className="art-intro">Ideas that started with a question and turned into working systems.</p><div className="experiment-grid"><article><span>01 / EVIDENCE SYSTEMS</span><h3>EchoTrace</h3><p>An evidence reconstruction engine for commercial fleet incidents, bringing fragmented media into a cited timeline.</p><a href="https://github.com/joshuaraja1/EchoTrace" target="_blank" rel="noreferrer">View project ↗</a></article></div></section>
     </main>
     <footer>Built and designed for {profile.name}.<br />Inspired by <a href="https://github.com/gazijarin/Gazi-V2" target="_blank" rel="noreferrer">Gazi V2</a>.</footer>
   </div>

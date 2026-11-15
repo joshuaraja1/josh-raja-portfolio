@@ -12,6 +12,7 @@
 .section-with-link>a{font-size:18px;white-space:nowrap;transition:transform .2s}
 .section-with-link>a:hover{transform:translateX(4px);color:#ccd6f6}
 .spotlight-finance .spotlight-art{background:radial-gradient(circle at 23% 25%,#245d6b,#112240 45%,#07192d)}
+.spotlight-polaris .spotlight-art{background:radial-gradient(circle at 62% 26%,#245d6b,#0d2539 42%,#071528 72%)}
 .spotlight-ride .spotlight-art{background:linear-gradient(135deg,#1a5263,#0c203b 60%,#15263f)}
 .spotlight-nebula .spotlight-art{background:radial-gradient(circle at 70% 35%,#3a466d,#0d1f36 65%)}
 .spotlight-land .spotlight-art{background:linear-gradient(145deg,#3e665b,#102a3b 65%)}
